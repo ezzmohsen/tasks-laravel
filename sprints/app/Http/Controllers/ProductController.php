@@ -19,10 +19,10 @@ class ProductController extends Controller
         return view('products.create');
     }
 
-    // Store a new product
+   
     public function store(Request $request)
     {
-        // Validate the request
+
         $productAdded = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -31,13 +31,10 @@ class ProductController extends Controller
             'unit_price' => 'required|numeric|min:0',
         ]);
 
-        // Example of correct handling if unit_price is expected to be a float
-        // $unite = $productAdded['unite price'];
-
-        // Create the product
+     
         Product::create($productAdded);
 
-        // Redirect with success message
+    
         return redirect()->route('products.create')->with('success', 'Product added successfully!');
     }
 
