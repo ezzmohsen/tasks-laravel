@@ -17,4 +17,5 @@ Route::get('/blogs/{id}/edit', [UpdateController::class, 'edit']);
 Route::put('/blogs/{id}', [UpdateController::class, 'updateData']);
 
 
-Route::resource('products', ProductController::class);
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');

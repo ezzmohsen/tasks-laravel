@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('description');
             $table->string('stock');
-            $table->integer('unite price');
+            $table->decimal('unit_price', 8, 2)->default(0.00)->change();
             $table->timestamps();
         });
     }

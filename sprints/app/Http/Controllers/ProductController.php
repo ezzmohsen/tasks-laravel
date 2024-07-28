@@ -16,20 +16,29 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products');
+        return view('products.create');
     }
+
+    // Store a new product
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|max:10|string',
-            'description' => 'required|min:5|string',
-            'unite price' => $request->input('unit price', 0.00),
-            'stock' => 'required|boolean',
+        // Validate the request
+        $productAdded = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+
+            'stock' => 'boolean',
+            'unit_price' => 'required|numeric|min:0',
         ]);
-        Product::create($request->all());
-        return redirect()->route('products')->with('success', 'Product created successfully.');
 
+        // Example of correct handling if unit_price is expected to be a float
+        // $unite = $productAdded['unite price'];
 
+        // Create the product
+        Product::create($productAdded);
+
+        // Redirect with success message
+        return redirect()->route('products.create')->with('success', 'Product added successfully!');
     }
 
     public function show(Product $product)
