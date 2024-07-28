@@ -9,7 +9,8 @@
     <h1>Posts</h1>
     <ul>
         @foreach($posts as $post)
-            <li>{{ $post}} </li>
+            <li>{{ $post->title}} --- {{ $post->content}}</li>
+
         @endforeach
     </ul>
 </body>
