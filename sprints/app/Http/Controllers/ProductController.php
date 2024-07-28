@@ -26,15 +26,11 @@ class ProductController extends Controller
         $productAdded = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-
             'stock' => 'boolean',
             'unit_price' => 'required|numeric|min:0',
         ]);
 
-        // Example of correct handling if unit_price is expected to be a float
-        // $unite = $productAdded['unite price'];
 
-        // Create the product
         Product::create($productAdded);
 
         // Redirect with success message
@@ -53,22 +49,32 @@ class ProductController extends Controller
         return redirect()->route('products')->with('success', 'Product deleted successfully.');
     }
 
-    public function edit(Product $product)
+    public function edit($id)
     {
-        return view('products', compact('product'));
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
-    public function update(Request $request, Product $product)
+
+    // Update an existing product
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|max:10|string',
-            'description' => 'required|min:5|string',
-            'unite price' => 'required|numeric',
-            'stock' => 'required|boolean',
+        // Validate the request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'boolean',
+            'unit_price' => 'required|numeric|min:0',
         ]);
 
-        $product->update($request->all());
+        // Find the product
+        $product = Product::findOrFail($id);
 
-        return redirect()->route('products')->with('success', 'Product updated successfully.');
+        // Update the product
+        $product->update($validated);
+
+        // Redirect with success message
+        return redirect()->route('products.edit', $id)->with('success', 'Product updated successfully!');
     }
 }
 
