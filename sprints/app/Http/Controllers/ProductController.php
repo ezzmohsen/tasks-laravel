@@ -19,10 +19,10 @@ class ProductController extends Controller
         return view('products.create');
     }
 
-    // Store a new product
+    
     public function store(Request $request)
     {
-        // Validate the request
+     
         $productAdded = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -55,7 +55,7 @@ class ProductController extends Controller
         return view('products.edit', compact('product'));
     }
 
-    // Update an existing product
+  
     public function update(Request $request, $id)
     {
         // Validate the request
@@ -67,13 +67,13 @@ class ProductController extends Controller
             'unit_price' => 'required|numeric|min:0',
         ]);
 
-        // Find the product
+    
         $product = Product::findOrFail($id);
 
-        // Update the product
+   
         $product->update($validated);
 
-        // Redirect with success message
+    
         return redirect()->route('products.edit', $id)->with('success', 'Product updated successfully!');
     }
 }
